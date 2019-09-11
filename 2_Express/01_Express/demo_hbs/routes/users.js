@@ -16,4 +16,8 @@ userRouter.post('/', function(request, response) {
     }
 });
 
+userRouter.post('/', function(request, response) {
+    
+});
+
 module.exports = userRouter;
