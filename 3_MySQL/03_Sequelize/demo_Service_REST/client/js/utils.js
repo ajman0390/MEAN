@@ -72,7 +72,7 @@ function displayUsers(usersList) {
 function persistUser(userForm, userObj, usersList) {
     $.post("http://localhost:3000/users/register", userObj, function() {})
         .done(function(user) {
-            users.push(new User(user.id, userObj.userName, userObj.email, userObj.isAdmin));
+            users.push(new User(user.id, userObj.userName, userObj.password, userObj.email, userObj.isAdmin));
             displayUsers(usersList);
             userForm.reset();
         })
@@ -99,7 +99,7 @@ function updateUser(userForm, userObj, usersList) {
         success: () => {
             deleteUserFromPage(userObj.id, usersList);
 
-            users.push(new User(userObj.id, userObj.userName, userObj.email, userObj.isAdmin));
+            users.push(new User(userObj.id, userObj.userName, userObj.password, userObj.email, userObj.isAdmin));
             displayUsers(usersList);
 
             toggleButtons();
@@ -161,7 +161,7 @@ function loadPersistedUsers(usersList) {
                     // get current Object in Array
                     var pseristedUser = pseristedUsers[indx];
                     // create new user Object
-                    var newUser = new User(pseristedUser.id, pseristedUser.user_name, pseristedUser.email, pseristedUser.is_admin);
+                    var newUser = new User(pseristedUser.id, pseristedUser.user_name, pseristedUser.password, pseristedUser.email, pseristedUser.is_admin);
                     // push to Array
                     users.push(newUser);
                 }

@@ -30,6 +30,9 @@ function validateInput(userName, email, msg) {
     if (userName.value === '') {
         msg.innerHTML = 'Please enter a User Name.';
         userName.focus();
+    } else if (password.value === '') {
+        msg.innerHTML = 'Please enter a password.';
+        email.focus();
     } else if (email.value === '') {
         msg.innerHTML = 'Please enter a email.';
         email.focus();
@@ -46,6 +49,7 @@ $(document).ready(function() {
     // Get DOM Elements
     var userForm = document.getElementById('userForm');
     var userName = document.getElementById('userName');
+    var password = document.getElementById('password');
     var email = document.getElementById('email');
     var isAdmin = document.getElementById('isAdmin');
     var editBtn = document.getElementById('editBtn');
@@ -62,9 +66,9 @@ $(document).ready(function() {
         evt.preventDefault();
 
         // Validate input data
-        if (validateInput(userName, email, msg)) {
+        if (validateInput(userName, password, email, msg)) {
             var isAdminSelected = isAdmin.checked ? 1 : 0;
-            var userObj = { userName: userName.value, email: email.value, isAdmin: isAdminSelected };
+            var userObj = { userName: userName.value, password: password.value, email: email.value, isAdmin: isAdminSelected };
             // call funct to persist to DB
             persistUser(this, userObj, usersList);
         } else {
@@ -86,7 +90,7 @@ $(document).ready(function() {
     // Edit Button (on edit form) Click Event
     editBtn.addEventListener('click', function() {
         var isAdminSelected = isAdmin.checked ? 1 : 0;
-        var userObj = { id: parseInt(userToDelete), userName: userName.value, email: email.value, isAdmin: isAdminSelected };
+        var userObj = { id: parseInt(userToDelete), userName: userName.value, password: password.value, email: email.value, isAdmin: isAdminSelected };
         // call funct to update in DB
         updateUser(userForm, userObj, usersList);
     });
@@ -114,6 +118,7 @@ $(document).ready(function() {
 
                 // Populate Form with User data - first (only) Element in filteredUser Array
                 userName.value = filteredUser[0].userName;
+                password.value = filteredUser[0].password;
                 email.value = filteredUser[0].email;
                 isAdmin.checked = filteredUser[0].isAdmin;
 
