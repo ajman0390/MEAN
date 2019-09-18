@@ -43,7 +43,9 @@ module.exports = {
         if (conn) {
             var userName = req.body.user_name;
             var userPassword = req.body.user_password;
-            var qryStr = 'INSERT into user (user_name, password) values("' + userName + '", "' + userPassword + '")';
+            var userEmail = req.body.user_email;
+            var qryStr = 'INSERT into user (user_name, password, email) values("' + userName + '", "' + userPassword + '", "' + userEmail + '")';
+            console.log(qryStr)
             executeQuery(conn, res, qryStr);
         } else {
             res.json({
@@ -67,9 +69,35 @@ module.exports = {
     },
     postUserUpdate: function(conn, req, res) {
         if (conn) {
+            var userId = req.params.user_id;
+            var update_type = req.body.update_type;
+            var update_value = req.body.update_value;
+
+            var qryStr = `UPDATE user SET ${update_type} = "${update_value}" WHERE id =  ${userId}`;
+
+
+
+            // var userName = req.body.user_name;
+            // var userPassword = req.body.user_password;
+            // var userEmail = req.body.user_email;
+            // var qryStr = 'UPDATE user SET password = "' + userPassword + '", email = "' + userEmail + '" WHERE user_name = "' + userName + '"';
+
+
+            console.log(qryStr)
+            executeQuery(conn, res, qryStr);
+        } else {
+            res.json({
+                'success': false,
+                'msg': 'No DB Connection established.'
+            });
+        }
+    },
+    postUserUpdateEmail: function(conn, req, res) {
+        if (conn) {
             var userName = req.body.user_name;
-            var userPassword = req.body.user_password;
-            var qryStr = 'UPDATE user SET password = "' + userPassword + '" WHERE user_name = "' + userName + '"';
+            // var userPassword = req.body.user_password;
+            var userEmail = req.body.user_email;
+            var qryStr = 'UPDATE user SET email = "' + userEmail  + '" WHERE user_name = "' + userName + '"';
             executeQuery(conn, res, qryStr);
         } else {
             res.json({

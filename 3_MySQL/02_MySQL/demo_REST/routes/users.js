@@ -14,7 +14,8 @@ userRouter.get('/', function(req, res) {
 userRouter.post('/register/', function(req, res) {
     var userName = req.body.user_name;
     var userPassword = req.body.user_password;
-    if (userName == null || userName == '' || userPassword == null || userPassword == '') {
+    var userEmail = req.body.user_email;
+    if (userName == null || userName == '' || userPassword == null || userPassword == '' || userEmail == null || userEmail == '') {
         res.json({
             'success': false,
             'msg': 'Bad Input: Missing login data.'
@@ -41,16 +42,37 @@ userRouter.post('/login/', function(req, res) {
 
 // update
 // PUT: http://localhost:3000/users/
-userRouter.put('/', function(req, res) {
-    var userName = req.body.user_name;
-    var userPassword = req.body.user_password;
-    if (userName == null || userName == '' || userPassword == null || userPassword == '') {
+userRouter.put('/:user_id', function(req, res) {
+    var userId = req.params.user_id;
+    var update_type = req.body.update_type;
+    var update_value = req.body.update_value;
+
+    // var userName = req.body.user_name;
+    // var userPassword = req.body.user_password;
+    // var userEmail = req.body.user_email;
+    if (userId == null || userId == '' || update_type == null || update_type == '' || update_value == null || update_value == '') {
         res.json({
             'success': false,
             'msg': 'Bad Input: Missing login data.'
         });
     } else {
         dbConn.getDbConnection(dbQuery.postUserUpdate, req, res);
+    }
+});
+
+// update EMAIL
+// PUT: http://localhost:3000/users/email
+userRouter.put('/email', function(req, res) {
+    var userName = req.body.user_name;
+    // var userPassword = req.body.user_password;
+    var userEmail = req.body.user_email;
+    if (userName == null || userName == '' || userEmail == null || userEmail == '') {
+        res.json({
+            'success': false,
+            'msg': 'Bad Input: Missing login data.'
+        });
+    } else {
+        dbConn.getDbConnection(dbQuery.postUserUpdateEmail, req, res);
     }
 });
 
